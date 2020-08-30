@@ -3,5 +3,6 @@
 export class Mascota{
     nombre:string;
     citas:number;
+    medicamento:string;
     ultimoServicio:string;
 }

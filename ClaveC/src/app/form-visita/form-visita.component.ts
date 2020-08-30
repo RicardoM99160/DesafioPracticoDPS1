@@ -16,14 +16,18 @@ export class FormVisitaComponent implements OnInit {
   //Declaración de variables a utilizar
   clientes:Cliente[];
   servicios:string[];
+  medicamentos:string[];
   clienteSeleccionado:Cliente;
   mascotaSeleccionada:Mascota;
   nombreClienteSeleccionado:string;
+  duiClienteSeleccionado:string;
   nombreMascotaSeleccionada:string;
   servicioSeleccionado:string;
+  medicamentoSeleccionado:string;
   citas:number;
   ultimoServicio:string;
   precio:number;
+  precioMedicamento:number;
   precioDescuento:number;
   descuento:number;
 
@@ -36,6 +40,7 @@ export class FormVisitaComponent implements OnInit {
   ngOnInit(): void {
     this.clientes = CLIENTES;
     this.servicios = ["Chequeo general", "Hospitalización", "Guardería", "Peluquería", "Cirugía", "Vacunación"];
+    this.medicamentos = ["Ninguno", "Antiparasitario", "Suero", "Anestesia", "Vacuna contra rabia", "Desparacitante", "Antibiótico"];
     this.clienteSeleccionado = new Cliente;
     this.descuento = 0;
     this.precio = 0;
@@ -47,7 +52,8 @@ export class FormVisitaComponent implements OnInit {
   //y asignandolo a la variable clienteSeleccionado
   seleccionarCliente(){
     for (let cliente of this.clientes){
-      if(this.nombreClienteSeleccionado == cliente.nombre){
+      if(this.duiClienteSeleccionado == cliente.dui){
+        this.nombreClienteSeleccionado = cliente.nombre;
         this.clienteSeleccionado = cliente;
         break;
       }
@@ -69,36 +75,63 @@ export class FormVisitaComponent implements OnInit {
         break;
       }
     }
+    this.medicamentoSeleccionado = "";
+    this.servicioSeleccionado = "";
+  }
+
+  //Obteniendo el medicamento seleccionado y calculando costos tomando en cuenta el descuento.
+  seleccionarMedicamento(){
+    switch(this.medicamentoSeleccionado){
+      case "Ninguno":
+        this.precioMedicamento = 0;
+      break;
+      case "Antiparasitario":
+        this.precioMedicamento = 5;
+      break;
+      case "Suero":
+        this.precioMedicamento = 10;
+      break;
+      case "Anestesia":
+        this.precioMedicamento = 25;
+      break;
+      case "Vacuna contra rabia":
+        this.precioMedicamento = 15;
+      break;
+      case "Desparacitante":
+        this.precioMedicamento = 7;
+      break;
+      case "Antibiótico":
+        this.precioMedicamento = 3;
+      break;
+    }
+    this.servicioSeleccionado = "";
+    this.precio = this.precioMedicamento;
+    this.precioDescuento = this.precio - this.precio*this.descuento;
   }
   
   //Obteniendo el servicio seleccionado y calculando costos tomando en cuenta el descuento.
   seleccionarServicio(){
     switch(this.servicioSeleccionado){
       case "Chequeo general":
-        this.precio = 20;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 20 + this.precioMedicamento;
       break;
       case "Hospitalización":
-        this.precio = 30;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 30 + this.precioMedicamento;
       break;
       case "Guardería":
-        this.precio = 10;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 10 + this.precioMedicamento;
       break;
       case "Peluquería":
-        this.precio = 15;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 15 + this.precioMedicamento;
       break;
       case "Cirugía":
-        this.precio = 100;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 100 + this.precioMedicamento;
       break;
       case "Vacunación":
-        this.precio = 25;
-        this.precioDescuento = this.precio - this.precio*this.descuento;
+        this.precio = 25 + this.precioMedicamento;
       break;
     }
+    this.precioDescuento = this.precio - this.precio*this.descuento;
   }
 
   //Se guardan los datos de la cita
@@ -107,7 +140,7 @@ export class FormVisitaComponent implements OnInit {
   //Se incrementa el numero de la factura
   registrarCita(){
     for (let cliente of this.clientes){
-      if(cliente.nombre == this.nombreClienteSeleccionado){
+      if(cliente.dui == this.duiClienteSeleccionado){
         for(let mascota of cliente.mascotas){
           if(mascota.nombre == this.nombreMascotaSeleccionada){
             mascota.citas++;
@@ -126,6 +159,7 @@ export class FormVisitaComponent implements OnInit {
   //Función para vaciar los campos del formulario y eliminar el valor de algunas
   regresarFormulario(formulario:NgForm){
     this.enviar = false;
+    this.nombreClienteSeleccionado = "";
     this.citas = 0;
     this.ultimoServicio = "";
     this.descuento = 0;

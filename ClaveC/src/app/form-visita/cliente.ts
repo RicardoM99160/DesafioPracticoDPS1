@@ -3,6 +3,7 @@
 import { Mascota } from './mascota';
 
 export class Cliente{
+    dui:string;
     nombre:string;
     mascotas:Mascota[];
 }
