@@ -32,7 +32,7 @@ export class FormVisitaComponent implements OnInit {
 
   constructor() { }
 
-  //Se obtienen los datos de los clientes y se inicializan las variables que alimentan el formulario 
+  //Se obtienen los datos de ls clientes y se inicializan las variables que alimentan el formulario 
   ngOnInit(): void {
     this.clientes = CLIENTES;
     this.servicios = ["Chequeo general", "Hospitalización", "Guardería", "Peluquería", "Cirugía", "Vacunación"];
@@ -43,7 +43,8 @@ export class FormVisitaComponent implements OnInit {
     this.numeroFactura = this.getRandomInt(1856, 4786);
   }
 
-  //Obteniendo el nombre del cliente seleccionado del select y asignandolo a la variable nombreClienteSeleccionado
+  //Obteniendo el objeto del cliente a partir de su nombre seleccionado en el select 
+  //y asignandolo a la variable clienteSeleccionado
   seleccionarCliente(){
     for (let cliente of this.clientes){
       if(this.nombreClienteSeleccionado == cliente.nombre){
