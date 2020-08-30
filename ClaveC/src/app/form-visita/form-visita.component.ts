@@ -13,6 +13,7 @@ import { CLIENTES } from './mock-clientes';
 })
 export class FormVisitaComponent implements OnInit {
 
+  //Declaración de variables a utilizar
   clientes:Cliente[];
   servicios:string[];
   clienteSeleccionado:Cliente;
@@ -31,6 +32,7 @@ export class FormVisitaComponent implements OnInit {
 
   constructor() { }
 
+  //Se obtienen los datos de los clientes y se inicializan las variables que alimentan el formulario 
   ngOnInit(): void {
     this.clientes = CLIENTES;
     this.servicios = ["Chequeo general", "Hospitalización", "Guardería", "Peluquería", "Cirugía", "Vacunación"];
@@ -51,7 +53,7 @@ export class FormVisitaComponent implements OnInit {
     }
   }
 
-  //Obteniendo el descuento a aplicar
+  //Obteniendo el descuento a aplicar en base a las citas de la mascota seleccionada
   descuentoAplicado(){
     for (let mascota of this.clienteSeleccionado.mascotas){
       if(mascota.nombre == this.nombreMascotaSeleccionada){
@@ -101,6 +103,7 @@ export class FormVisitaComponent implements OnInit {
   //Se guardan los datos de la cita
   //Se incrementa por 1 la cantidad de citas de la mascota
   //Se almacena el servicio seleccionado en el atributo ultimoServicio de la mascota
+  //Se incrementa el numero de la factura
   registrarCita(){
     for (let cliente of this.clientes){
       if(cliente.nombre == this.nombreClienteSeleccionado){
@@ -119,6 +122,7 @@ export class FormVisitaComponent implements OnInit {
     this.enviar = true;
   }
 
+  //Función para vaciar los campos del formulario y eliminar el valor de algunas
   regresarFormulario(formulario:NgForm){
     this.enviar = false;
     this.citas = 0;
@@ -129,6 +133,7 @@ export class FormVisitaComponent implements OnInit {
     formulario.reset();
   }
 
+  //Función para obtener un numero aleatorio entre un rango que se utiliza para el número de la factura
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
